@@ -9,7 +9,7 @@ def main():
     
     procedure = input("Enter the source for your text! Enter 'f' for a file, and 'm' for manual input!\n")
 
-    if procedure == "f" or procedure == "F":
+    if procedure.lower() == "f":
         file = input("Make sure the file is in the same directory as this script.\nEnter the name of the file, including the extension!\n")
         try:
             with open(file, "r") as f:
@@ -29,8 +29,12 @@ def main():
         except Exception as e:
             print("There has been an error! {0}".format(e))
 
-    elif procedure == "m" or procedure == "M":
+    elif procedure.lower() == "m":
         userstring = input("Enter the string to be parsed.\n").replace('"', r'\"') # Sanitizes inputs w/ double quotes
+
+    else:
+        print("That is not a valid input.")
+        main()
 
 
     unicode = (ord(x) for x in userstring)
@@ -58,10 +62,16 @@ def main():
 
         rotstring += chr(x)
 
-    with open("output.txt", "w") as f:
-        f.write(rotstring.replace('\\"', r'"')) # Undoes sanitization
+    if procedure.lower() == "f":
+        with open("output.txt", "w") as f:
+            f.write(rotstring.replace('\\"', r'"')) # Undoes sanitization
+            print("Your output has been stored in 'output.txt'!")
+            
+    elif procedure.lower() == "m":
+        print(rotstring.replace('\\"', r'"'))
+        
 
-    print("Your output has been stored in 'output.txt'!")
+    
 
 
 if __name__ == "__main__":
